@@ -1,0 +1,7 @@
+<library path="lib/libtuw_ekf_nodelet">
+  <class name="tuw_ekf/tuw_ekf_nodelet" type="tuw_ekf::EKFNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>
