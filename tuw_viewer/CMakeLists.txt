@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tuw_ekf)
-
-add_compile_options(-std=c++11 -march=native ) ## for c++ 2011
+project(tuw_viewer)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  marker_msgs
   roscpp
   rospy
-  nodelet
   sensor_msgs
   std_msgs
-  marker_msgs
-  tf
+  tuw_mathgl
 )
 
+	
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -74,7 +70,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   marker_msgs#   sensor_msgs#   std_msgs
+#   sensor_msgs#   std_msgs
 # )
 
 ################################################
@@ -108,8 +104,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES tuw_ekf
-#  CATKIN_DEPENDS marker_msgs roscpp rospy nodelet sensor_msgs std_msgs marker_msgs tf
+#  LIBRARIES tuw_viewer
+#  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
@@ -125,29 +121,39 @@ include_directories(
   include/
 )
 
+add_executable(fltk_example examples/wnd_samples.cpp examples/fltk_example.cpp)
+target_link_libraries(fltk_example ${catkin_LIBRARIES})
+
+add_executable(qt_example examples/wnd_samples.cpp examples/qt_example.cpp)
+target_link_libraries(qt_example ${catkin_LIBRARIES})
+
+add_executable(animation examples/animation.cpp)
+
+target_link_libraries(animation ${catkin_LIBRARIES})
+
+add_executable(draw_and_calculate examples/draw_and_calculate.cpp)
+
+target_link_libraries(draw_and_calculate ${catkin_LIBRARIES})
+
 ## Declare a C++ library
-add_library(tuw_ekf_nodelet
-   src/tuw_ekf_nodelet.cpp
-)
+# add_library(tuw_viewer
+#   src/${PROJECT_NAME}/tuw_viewer.cpp
+# )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(tuw_ekf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(tuw_viewer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(tuw_ekf_node src/tuw_ekf_node.cpp)
+add_executable(tuw_viewer_node src/tuw_viewer_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(tuw_ekf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(tuw_viewer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(tuw_ekf_node
-  ${catkin_LIBRARIES}
-)
-
-target_link_libraries(tuw_ekf_nodelet
+target_link_libraries(tuw_viewer_node
   ${catkin_LIBRARIES}
 )
 
@@ -166,11 +172,11 @@ target_link_libraries(tuw_ekf_nodelet
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS tuw_ekf_node tuw_ekf_nodelet
+# install(TARGETS tuw_viewer tuw_viewer_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
@@ -180,17 +186,18 @@ install(TARGETS tuw_ekf_node tuw_ekf_nodelet
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES 
-   nodelet_plugins.xml
-   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_tuw_ekf.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_tuw_viewer.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
