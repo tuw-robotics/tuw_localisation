@@ -9,15 +9,18 @@
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <sensor_msgs/LaserScan.h>
+#include <tuw_viewer/views.h>
+#include <boost/thread.hpp>
 
 namespace tuw {
 /**
  * class to cover the ros communication for the self-localization
  **/
-class ViewerNode {
+class ViewerNode{
 public:
     ViewerNode ( ros::NodeHandle & n ); /// Constructor
 private:
+    std::shared_ptr<Views> viewsPtr_;
     ros::NodeHandle n_;             /// node handler to the root node
     ros::NodeHandle n_param_;       /// node handler to the current node
     ros::Subscriber sub_cmd_;       /// Subscriber to the command measurements
